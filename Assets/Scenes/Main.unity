@@ -2069,7 +2069,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369901abe57ad4241b50a60d72e0a409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userdata: []
   userDataPerfab: {fileID: 2511434916291143737, guid: e58b6a0fdf6990e4da680adeb509e84a, type: 3}
   checkCount: 0
   checkRanking: 0
@@ -2258,7 +2257,7 @@ MonoBehaviour:
   idNotFound: {fileID: 1524072464}
   idInputPanel: {fileID: 678933755}
   rankingPanel: {fileID: 8254327766860003225}
-  levelPanel: {fileID: 0}
+  levelPanel: {fileID: 8254327765223820909}
   startButton: {fileID: 1519231478}
   levelOneButton: {fileID: 8254327766552451039}
   levelTwoButton: {fileID: 8254327765228302463}
