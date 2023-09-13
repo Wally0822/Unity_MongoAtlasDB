@@ -1,9 +1,4 @@
-using MongoDB.Bson;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,8 +30,7 @@ public class RankingDBManager : MonoBehaviour
     [SerializeField] RectTransform levelThreePos = null;
     [SerializeField] RectTransform levelFourPos = null;
 
-
-    void Awake()
+    private void Awake()
     {
         rankingDataBase = GameObject.FindGameObjectWithTag("RankingDataBase").GetComponent<RankingDataBase>();
 
@@ -47,7 +41,7 @@ public class RankingDBManager : MonoBehaviour
         levelFourButton.onClick.AddListener(() => OnClickLevelFourButton());
     }
 
-    void OnInputId()
+    private void OnInputId()
     {
         int userId = int.Parse(userIdInputField.text);
         Debug.Log("userID : " + userId);
@@ -56,7 +50,7 @@ public class RankingDBManager : MonoBehaviour
         idInputPanel.gameObject.SetActive(false);
     }
 
-    void OnClickLevelOneButton()
+    private void OnClickLevelOneButton()
     {
         PosSetting(true, false, false, false);
 
@@ -67,7 +61,7 @@ public class RankingDBManager : MonoBehaviour
         }
     }
 
-    void OnClickLevelTwoButton()
+    private void OnClickLevelTwoButton()
     {
         PosSetting(false, true, false, false);
         if (levelTwoPos.childCount == 0)
@@ -77,7 +71,7 @@ public class RankingDBManager : MonoBehaviour
         }
     }
 
-    void OnClickLevelThreeButton()
+    private void OnClickLevelThreeButton()
     {
         PosSetting(false, false, true, false);
 
@@ -88,7 +82,8 @@ public class RankingDBManager : MonoBehaviour
 
         }
     }
-    void OnClickLevelFourButton()
+
+    private void OnClickLevelFourButton()
     {
         PosSetting(false, false, false, true);
 
@@ -100,7 +95,7 @@ public class RankingDBManager : MonoBehaviour
         }
     }
 
-    void PosSetting(bool one, bool two, bool three, bool four)
+    private void PosSetting(bool one, bool two, bool three, bool four)
     {
         levelOnePos.gameObject.SetActive(one);
         levelTwoPos.gameObject.SetActive(two);
@@ -108,14 +103,14 @@ public class RankingDBManager : MonoBehaviour
         levelFourPos.gameObject.SetActive(four);
     }
 
-    void ShowMyData()
+    private void ShowMyData()
     {
         int userId = int.Parse(userIdInputField.text);
         Debug.Log("## userID : " + userId);
 
-        // µ•¿Ã≈Õ ∫£¿ÃΩ∫ø°º≠ ¿‘∑¬ «— ID √£±‚
+        // Îç∞Ïù¥ÌÑ∞ Î≤†Ïù¥Ïä§ÏóêÏÑú ÏûÖÎ†• Ìïú ID Ï∞æÍ∏∞
         var check = rankingDataBase.FindId(userId);
-        Debug.Log("## DB ø°º≠ √£æ“æÓø‰ : " + rankingDataBase.FindId(userId));
+        Debug.Log("## DB ÏóêÏÑú Ï∞æÏïòÏñ¥Ïöî : " + rankingDataBase.FindId(userId));
 
         if (check != null)
         {
@@ -124,7 +119,7 @@ public class RankingDBManager : MonoBehaviour
 
             if (userId == checkId)
             {
-                // ¿÷¿∏∏È «•Ω√ æ¯¿∏∏È «•Ω√æ»«‘
+                // ÏûàÏúºÎ©¥ ÌëúÏãú ÏóÜÏúºÎ©¥ ÌëúÏãúÏïàÌï®
                 LevelOneUserId.text = $"ID : {userId.ToString()}";
             }
             else
@@ -138,7 +133,7 @@ public class RankingDBManager : MonoBehaviour
         LevelOneScore.text = $"Score : {score.ToString()}";
     }
 
-    async void OnClickRankingShoring(int gameGroup, int gameLevel, RectTransform pos)
+    private async void OnClickRankingShoring(int gameGroup, int gameLevel, RectTransform pos)
     {
         var task = rankingDataBase.GetUserData(gameGroup, gameLevel, pos);
         var result = await task;

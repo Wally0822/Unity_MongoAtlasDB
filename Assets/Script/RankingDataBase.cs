@@ -27,15 +27,15 @@ public class RankingDataBase : MonoBehaviour
 
         //GetUserData(1, 1);
 
-        #region µ¥ÀÌÅÍ Ãß°¡ ¹× Ã¼Å©
-        //DataDelete(9); // ÇØ´ç ¾ÆÀÌµğ µµÅ¥¸ÕÆ® ÀüºÎ »èÁ¦
+        #region ë°ì´í„° ì¶”ê°€ ë° ì²´í¬
+        //DataDelete(9); // í•´ë‹¹ ì•„ì´ë”” ë„íë¨¼íŠ¸ ì „ë¶€ ì‚­ì œ
 
         long time = TimeSetting();
-        //SaveScoreToDataBase(5, 1, 2, 5, time); // µ¥ÀÌÅÍ Ãß°¡
-        //SaveScoreToDataBase(5, 1, 3, 6, time); // µ¥ÀÌÅÍ Ãß°¡
+        //SaveScoreToDataBase(5, 1, 2, 5, time); // ë°ì´í„° ì¶”ê°€
+        //SaveScoreToDataBase(5, 1, 3, 6, time); // ë°ì´í„° ì¶”ê°€
 
-        //DataFindGameGroup(1); // °ÔÀÓ ±×·ìÀ¸·Î Ã£±â
-        //DataFindGame(2, 2); // °ÔÀÓ ±×·ì ¹× ·¹º§·Î Ã£±â
+        //DataFindGameGroup(1); // ê²Œì„ ê·¸ë£¹ìœ¼ë¡œ ì°¾ê¸°
+        //DataFindGame(2, 2); // ê²Œì„ ê·¸ë£¹ ë° ë ˆë²¨ë¡œ ì°¾ê¸°
         //DataFindId(1);
         #endregion
     }
@@ -43,7 +43,7 @@ public class RankingDataBase : MonoBehaviour
     // Play Game Time Setting : Year/Month/Day/Hour/Minute
     public long TimeSetting()
     {
-        string nowDate = DateTime.Now.ToString("yyyyMMddHHmm"); // ÇöÀç ½Ã°£
+        string nowDate = DateTime.Now.ToString("yyyyMMddHHmm"); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
         long time = long.Parse(nowDate);
 
         Debug.Log("nowDate:" + time);
@@ -58,17 +58,17 @@ public class RankingDataBase : MonoBehaviour
 
         var document = new BsonDocument { { "id", id }, { "gameGroup", gameGroup }, { "gameLevel", gameLevel }, { "point", point }, { "date", date } };
 
-        // Ã¼Å© Æ÷ÀÎÆ®·Î À¯Àú DB Áßº¹ Ã¼Å© ¾ÈÇÔ
+        // ì²´í¬ í¬ì¸íŠ¸ë¡œ ìœ ì € DB ì¤‘ë³µ ì²´í¬ ì•ˆí•¨
         //if (DataFindID(id) != null)
         //{
-            await collection.InsertOneAsync(document);
-            Debug.Log("## DB¿¡ µ¥ÀÌÅÍ Ãß°¡ ¿Ï·á : " + document.ToString());
+        await collection.InsertOneAsync(document);
+        Debug.Log("## DBì— ë°ì´í„° ì¶”ê°€ ì™„ë£Œ : " + document.ToString());
         //}
 
     }
 
     // Check ID in DB
-    BsonDocument DataFindID(int id)
+    private BsonDocument DataFindID(int id)
     {
         BsonDocument filter = new BsonDocument { { "id", id } };
         BsonDocument targetData = collection.Find(filter).FirstOrDefault();
@@ -78,9 +78,7 @@ public class RankingDataBase : MonoBehaviour
 
     public int id { get; set; }
     public int point { get; set; }
-
     public int checkCount;
-
     public int checkRanking = 0;
 
     // Find Target(gameGroup, gameLevel) DB Data 
@@ -126,16 +124,15 @@ public class RankingDataBase : MonoBehaviour
         return userdata;
     }
 
-    void UserDataPrefabInst(int count, RectTransform pos)
+    private void UserDataPrefabInst(int count, RectTransform pos)
     {
         userTopRanking = userDataPerfab.GetComponent<UserTopRanking>();
         userTopRanking.UiSetting(id, point, count);
 
         GameObject inst = Instantiate(userDataPerfab, Vector2.zero, Quaternion.identity, pos);
 
-        //Debug.Log("Ãß°¡µÊ ??");
+        //Debug.Log("ï¿½ß°ï¿½ï¿½ï¿½ ??");
     }
-
 
     public void DataSorting(int point)
     {
@@ -152,20 +149,19 @@ public class RankingDataBase : MonoBehaviour
     // Get User ScoreData
     public int DetaFindld(int id)
     {
-        var filter = Builders<BsonDocument>.Filter.Eq("id", id);//Ã£À» µµÅ¥¸ÕÆ®ÀÇ NameÀÌ ¾Æ´Ñ°Í
+        var filter = Builders<BsonDocument>.Filter.Eq("id", id);//Ã£ï¿½ï¿½ ï¿½ï¿½Å¥ï¿½ï¿½Æ®ï¿½ï¿½ Nameï¿½ï¿½ ï¿½Æ´Ñ°ï¿½
         //Debug.Log(filter.ToString());
-        var nullFilter = collection.Find(filter).FirstOrDefault();//if null ÀÌ¸é Ã£Áö ¸øÇÔ
+        var nullFilter = collection.Find(filter).FirstOrDefault();//if null ï¿½Ì¸ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         //Debug.Log(nullFilter.ToString());
         int check = 0;
         if (nullFilter != null)
         {
             check = (int)nullFilter.GetValue("point");
-            //Debug.Log(nullFilter.GetValue("point")); // Æ¯Á¤ ÇÊµå¸¦ Ã£À½.
+            //Debug.Log(nullFilter.GetValue("point")); // Æ¯ï¿½ï¿½ ï¿½Êµå¸¦ Ã£ï¿½ï¿½.
             return check;
         }
         return check;
     }
-
 
     // Fing User id 
     public BsonDocument FindId(int id)
@@ -184,6 +180,6 @@ public class RankingDataBase : MonoBehaviour
     {
         BsonDocument filter = new BsonDocument { { "id", id } };
         collection.DeleteMany(filter);
-        Debug.Log("## DB¿¡ µ¥ÀÌÅÍ »èÁ¦ ¿Ï·á : " + filter.ToString());
+        Debug.Log("## DBì— ë°ì´í„° ì‚­ì œ ì™„ë£Œ : " + filter.ToString());
     }
 }
